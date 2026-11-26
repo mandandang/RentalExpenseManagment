@@ -1,0 +1,6 @@
+{
+  "name": "RentReconcile EU - Property & Bank Reconciliation",
+  "description": "European property billing and PSD2 bank reconciliation platform. Ingests PDF utility bills, handles multi-tenant roommate splits with pro-rata absences, and reconciles ING & Revolut bank feeds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

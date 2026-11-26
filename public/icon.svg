@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="128" fill="#2563EB"/>
+  <!-- Modern Building and Euro Bank Icon -->
+  <path d="M140 380V180L256 120L372 180V380H140Z" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linejoin="round"/>
+  <rect x="220" y="280" width="72" height="100" fill="#FFFFFF" rx="8"/>
+  <rect x="180" y="210" width="36" height="36" fill="#FFFFFF" rx="6" opacity="0.9"/>
+  <rect x="296" y="210" width="36" height="36" fill="#FFFFFF" rx="6" opacity="0.9"/>
+  <!-- Euro Symbol Accent -->
+  <circle cx="370" cy="150" r="64" fill="#10B981"/>
+  <text x="370" y="172" font-family="-apple-system, sans-serif" font-size="68" font-weight="bold" fill="#FFFFFF" text-anchor="middle">€</text>
+</svg>

@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Top-level collections for direct visibility and access in Firebase Console
+    match /apartments/{apartmentId} {
+      allow read, write: if true;
+    }
+
+    match /tenants/{tenantId} {
+      allow read, write: if true;
+    }
+
+    match /bills/{billId} {
+      allow read, write: if true;
+    }
+
+    match /billShares/{shareId} {
+      allow read, write: if true;
+    }
+
+    match /bankAccounts/{accountId} {
+      allow read, write: if true;
+    }
+
+    match /expenses/{expenseId} {
+      allow read, write: if true;
+    }
+
+    match /transactions/{transactionId} {
+      allow read, write: if true;
+    }
+
+    match /landlords/{landlordId} {
+      allow read, write: if true;
+    }
+
+    // Default deny for unspecified paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

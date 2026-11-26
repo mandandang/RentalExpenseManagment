@@ -1,0 +1,184 @@
+{
+  "entities": {
+    "LandlordProfile": {
+      "title": "LandlordProfile",
+      "description": "Authenticated landlord profile and security settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Auth UID" },
+        "email": { "type": "string", "description": "Email address of landlord" },
+        "displayName": { "type": "string", "description": "Landlord display name" },
+        "photoURL": { "type": "string", "description": "Landlord avatar URL" },
+        "provider": { "type": "string", "description": "Auth provider (google, meta, etc.)" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "BankAccount": {
+      "title": "BankAccount",
+      "description": "Configured European landlord bank account details (ING, Revolut, etc.)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique bank account ID" },
+        "institutionName": { "type": "string", "description": "Institution name (ING, Revolut, etc.)" },
+        "accountName": { "type": "string", "description": "Human friendly label" },
+        "iban": { "type": "string", "description": "SEPA IBAN" },
+        "bic": { "type": "string", "description": "SWIFT/BIC code" },
+        "currency": { "type": "string", "description": "Currency code EUR, GBP, USD" },
+        "balance": { "type": "number", "description": "Account balance" },
+        "lastSyncedAt": { "type": "string", "description": "Timestamp of last sync" },
+        "consentExpiresAt": { "type": "string", "description": "PSD2 consent expiry date" },
+        "status": { "type": "string", "description": "Sync status" },
+        "revtag": { "type": "string", "description": "Revolut revtag if applicable" },
+        "holderName": { "type": "string", "description": "Bank account holder name" }
+      },
+      "required": ["id", "institutionName", "accountName", "iban", "bic", "currency"]
+    },
+    "Apartment": {
+      "title": "Apartment",
+      "description": "Property or building owned by the landlord",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique apartment ID" },
+        "name": { "type": "string", "description": "Building or apartment name" },
+        "unitNumber": { "type": "string", "description": "Unit or floor number" },
+        "address": { "type": "string", "description": "Street address" },
+        "city": { "type": "string", "description": "City" },
+        "country": { "type": "string", "description": "Country" },
+        "targetBankAccountId": { "type": "string", "description": "Default bank account ID" },
+        "colorTag": { "type": "string", "description": "Badge color" }
+      },
+      "required": ["id", "name", "address", "city", "country"]
+    },
+    "Tenant": {
+      "title": "Tenant",
+      "description": "Tenant occupying a room or apartment unit with customizable lease and room assignment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Tenant unique ID" },
+        "apartmentId": { "type": "string", "description": "ID of apartment assigned" },
+        "roomLabel": { "type": "string", "description": "Room or unit designation" },
+        "fullName": { "type": "string", "description": "Full name of tenant" },
+        "whatsappNumber": { "type": "string", "description": "International WhatsApp phone number" },
+        "email": { "type": "string", "description": "Tenant email address" },
+        "monthlyRent": { "type": "number", "description": "Monthly rent in EUR" },
+        "rentDueDay": { "type": "number", "description": "Day of the month rent is due (1-31)" },
+        "leaseStartDate": { "type": "string", "description": "Lease start date YYYY-MM-DD" },
+        "leaseEndDate": { "type": "string", "description": "Lease end date or empty" },
+        "retainedDepositBalance": { "type": "number", "description": "Retained deposit for bills" },
+        "isActive": { "type": "boolean", "description": "Whether tenant currently occupies" },
+        "targetBankAccountId": { "type": "string", "description": "Tenant specific destination bank account (ING, Revolut)" },
+        "notes": { "type": "string", "description": "Internal landlord notes or room change history" }
+      },
+      "required": ["id", "apartmentId", "fullName", "monthlyRent", "rentDueDay", "isActive"]
+    },
+    "Bill": {
+      "title": "Bill",
+      "description": "Utility bill attached to a property",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Bill unique ID" },
+        "apartmentId": { "type": "string", "description": "Apartment ID" },
+        "title": { "type": "string", "description": "Bill title" },
+        "category": { "type": "string", "description": "electricity, water, gas, internet, heating, other" },
+        "totalAmount": { "type": "number", "description": "Total invoice amount in EUR" },
+        "billingPeriodStart": { "type": "string", "description": "YYYY-MM-DD" },
+        "billingPeriodEnd": { "type": "string", "description": "YYYY-MM-DD" },
+        "invoiceDate": { "type": "string", "description": "YYYY-MM-DD" },
+        "dueDate": { "type": "string", "description": "YYYY-MM-DD" },
+        "pdfFilename": { "type": "string", "description": "Original file name" },
+        "status": { "type": "string", "description": "draft, split_calculated, partially_paid, settled" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["id", "apartmentId", "title", "category", "totalAmount", "status"]
+    },
+    "BillSplitShare": {
+      "title": "BillSplitShare",
+      "description": "Tenant calculated utility share for a bill",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Share unique ID" },
+        "billId": { "type": "string", "description": "Parent bill ID" },
+        "tenantId": { "type": "string", "description": "Target tenant ID" },
+        "tenantName": { "type": "string", "description": "Tenant display name" },
+        "roomLabel": { "type": "string", "description": "Tenant room label" },
+        "shareAmount": { "type": "number", "description": "Amount due in EUR" },
+        "totalPeriodDays": { "type": "number", "description": "Days in billing cycle" },
+        "activeDays": { "type": "number", "description": "Active residence days" },
+        "referenceCode": { "type": "string", "description": "SEPA remittance code" },
+        "status": { "type": "string", "description": "pending, paid, settled_deposit" }
+      },
+      "required": ["id", "billId", "tenantId", "shareAmount", "referenceCode", "status"]
+    },
+    "LandlordExpense": {
+      "title": "LandlordExpense",
+      "description": "Recurring or one-off property expense (mortgage, HOA, property tax)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Expense ID" },
+        "apartmentId": { "type": "string", "description": "Target apartment ID" },
+        "title": { "type": "string", "description": "Expense title" },
+        "category": { "type": "string", "description": "Category e.g. mortgage_installment, building_fees, property_tax, etc." },
+        "amount": { "type": "number", "description": "Amount in EUR" },
+        "frequency": { "type": "string", "description": "monthly, quarterly, annually, etc." },
+        "dueDay": { "type": "number", "description": "Due day of month" },
+        "nextDueDate": { "type": "string", "description": "Next due date YYYY-MM-DD" },
+        "recipient": { "type": "string", "description": "Recipient name" },
+        "iban": { "type": "string", "description": "Recipient IBAN" },
+        "status": { "type": "string", "description": "upcoming, due_soon, paid_for_period, overdue" }
+      },
+      "required": ["id", "apartmentId", "title", "category", "amount", "frequency", "status"]
+    },
+    "BankTransaction": {
+      "title": "BankTransaction",
+      "description": "Downloaded or simulated PSD2 bank transaction and payment reconciliation history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Transaction ID" },
+        "bankAccountId": { "type": "string", "description": "Originating bank account ID" },
+        "bookingDate": { "type": "string", "description": "YYYY-MM-DD" },
+        "amount": { "type": "number", "description": "Transaction value" },
+        "currency": { "type": "string", "description": "Currency EUR" },
+        "counterpartyName": { "type": "string", "description": "Payer or payee" },
+        "remittanceInformation": { "type": "string", "description": "Payment reference" },
+        "reconciliationStatus": { "type": "string", "description": "matched, unmatched, ignored" }
+      },
+      "required": ["id", "bankAccountId", "bookingDate", "amount", "currency", "counterpartyName", "reconciliationStatus"]
+    }
+  },
+  "firestore": {
+    "/apartments/{apartmentId}": {
+      "schema": { "$ref": "#/entities/Apartment" },
+      "description": "Top-level collection for all properties and buildings, directly viewable in Firebase console"
+    },
+    "/tenants/{tenantId}": {
+      "schema": { "$ref": "#/entities/Tenant" },
+      "description": "Top-level collection for all tenants, lease dates, room assignments, and contact details"
+    },
+    "/bills/{billId}": {
+      "schema": { "$ref": "#/entities/Bill" },
+      "description": "Top-level collection for utility bills, periods, and invoice amounts"
+    },
+    "/billShares/{shareId}": {
+      "schema": { "$ref": "#/entities/BillSplitShare" },
+      "description": "Top-level collection for computed tenant split shares"
+    },
+    "/bankAccounts/{accountId}": {
+      "schema": { "$ref": "#/entities/BankAccount" },
+      "description": "Top-level collection for connected ING and Revolut accounts"
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/LandlordExpense" },
+      "description": "Top-level collection for landlord recurring expenses (mortgage, taxes, fees)"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/BankTransaction" },
+      "description": "Top-level collection for payment histories and reconciliation audit trail"
+    },
+    "/landlords/{landlordId}": {
+      "schema": { "$ref": "#/entities/LandlordProfile" },
+      "description": "Landlord account profile and system settings"
+    }
+  }
+}
